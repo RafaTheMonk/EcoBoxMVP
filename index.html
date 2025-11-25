@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECOBOX - MVP interativo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top-bar">
+    <h1>ECOBOX - MVP Interativo</h1>
+    <p>Protótipo navegável pronto para testes e pitch.</p>
+    <nav class="screen-selector">
+      <button type="button" class="screen-btn" data-screen-trigger="welcome">Boas-vindas</button>
+      <button type="button" class="screen-btn" data-screen-trigger="login">Login</button>
+      <button type="button" class="screen-btn" data-screen-trigger="signup">Cadastro</button>
+      <button type="button" class="screen-btn" data-screen-trigger="home">Home</button>
+      <button type="button" class="screen-btn" data-screen-trigger="map">Mapa</button>
+      <button type="button" class="screen-btn" data-screen-trigger="point-details">Ponto</button>
+      <button type="button" class="screen-btn" data-screen-trigger="wallet">Carteira</button>
+      <button type="button" class="screen-btn" data-screen-trigger="history">Histórico</button>
+      <button type="button" class="screen-btn" data-screen-trigger="store">Loja</button>
+    </nav>
+  </header>
+
+  <noscript class="noscript-warning">
+    Ative o JavaScript para navegar entre as telas interativas do protótipo.
+  </noscript>
+
+  <main class="page-main">
+    <section class="phone-shell">
+      <div class="phone" aria-live="polite">
+        <div class="status-bar"></div>
+        <div id="screen-root" class="phone-content"></div>
+      </div>
+    </section>
+    <aside class="pitch-panel">
+      <h2>Pitch rápido</h2>
+      <p>Use este MVP para demonstrar o ciclo completo de incentivo à reciclagem.</p>
+      <ul class="pitch-list">
+        <li>Fluxo guiado com login, mapa, carteira e loja.</li>
+        <li>Simulador de EcoCoins e histórico vivo.</li>
+        <li>Baseado em JavaScript puro, pronto para Netlify.</li>
+      </ul>
+      <div class="deploy-hint">
+        <h3>Deploy no Netlify</h3>
+        <p>1. Faça o push para um repositório no GitHub.</p>
+        <p>2. No Netlify, conecte o repositório e deixe o comando de build em branco.</p>
+        <p>3. Defina <code>index.html</code> como arquivo de publicação.</p>
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <template data-screen="welcome">
+    <div class="screen-wrapper center">
+      <div class="logo-box">
+        <div class="logo-icon">ECO</div>
+        <h2>ECOBOX</h2>
+        <p>Recicle, acumule pontos e troque por benefícios reais.</p>
+      </div>
+      <p class="hint-text">Fluxo inteligente com dados fictícios para validar o MVP.</p>
+      <button type="button" class="primary-btn full" data-screen-trigger="login">Entrar</button>
+      <button type="button" class="secondary-btn full" data-screen-trigger="signup">Criar conta</button>
+    </div>
+  </template>
+
+  <template data-screen="login">
+    <div class="screen-wrapper">
+      <button type="button" class="back-btn" data-screen-trigger="welcome">&#10094;</button>
+      <h2 class="screen-title">Fazer login</h2>
+      <form class="form" data-auth-form="login">
+        <label for="login-name">Como devemos te chamar?</label>
+        <input id="login-name" name="name" type="text" placeholder="Ex: Marina" required />
+        <label for="login-email">E-mail</label>
+        <input id="login-email" name="email" type="email" placeholder="voce@email.com" required />
+        <label for="login-password">Senha</label>
+        <input id="login-password" name="password" type="password" placeholder="********" required />
+        <button type="submit" class="primary-btn full">Entrar</button>
+      </form>
+      <p class="bottom-text">
+        Ainda não tem conta?
+        <button type="button" class="text-link" data-screen-trigger="signup">Criar agora</button>
+      </p>
+    </div>
+  </template>
+
+  <template data-screen="signup">
+    <div class="screen-wrapper">
+      <button type="button" class="back-btn" data-screen-trigger="login">&#10094;</button>
+      <h2 class="screen-title">Criar conta</h2>
+      <form class="form" data-auth-form="signup">
+        <label for="signup-name">Nome completo</label>
+        <input id="signup-name" name="name" type="text" placeholder="Seu nome" required />
+        <label for="signup-email">E-mail</label>
+        <input id="signup-email" name="email" type="email" placeholder="voce@email.com" required />
+        <label for="signup-phone">Telefone</label>
+        <input id="signup-phone" name="phone" type="tel" placeholder="(00) 00000-0000" />
+        <label for="signup-password">Senha</label>
+        <input id="signup-password" name="password" type="password" placeholder="Crie uma senha" required />
+        <button type="submit" class="primary-btn full">Cadastrar</button>
+      </form>
+      <p class="bottom-text">
+        Já possui conta?
+        <button type="button" class="text-link" data-screen-trigger="login">Fazer login</button>
+      </p>
+    </div>
+  </template>
+
+  <template data-screen="home">
+    <div class="screen-wrapper">
+      <header class="phone-header">
+        <div class="logo-mini">ECOBOX</div>
+        <button type="button" class="chip-btn" data-screen-trigger="wallet">Carteira</button>
+      </header>
+      <div class="hero-card">
+        <p>Olá, <strong data-bind="userName"></strong></p>
+        <h3><span data-bind="coins"></span> EcoCoins disponíveis</h3>
+        <p class="muted">Meta do mês: <strong data-bind="monthlyGoal"></strong> EcoCoins</p>
+        <div class="hero-actions">
+          <button type="button" class="primary-btn" data-screen-trigger="map">Mapa inteligente</button>
+          <button type="button" class="secondary-btn" data-screen-trigger="store">Loja de resgates</button>
+        </div>
+      </div>
+      <section>
+        <h3 class="sub-title">Atalhos principais</h3>
+        <div class="grid-icons">
+          <button type="button" class="icon-card" data-screen-trigger="map">
+            <span class="icon">MAP</span>
+            <span class="icon-label">Pontos</span>
+          </button>
+          <button type="button" class="icon-card" data-screen-trigger="wallet">
+            <span class="icon">ECO</span>
+            <span class="icon-label">Carteira</span>
+          </button>
+          <button type="button" class="icon-card" data-screen-trigger="history">
+            <span class="icon">LOG</span>
+            <span class="icon-label">Histórico</span>
+          </button>
+          <button type="button" class="icon-card" data-screen-trigger="store">
+            <span class="icon">LOJ</span>
+            <span class="icon-label">Loja</span>
+          </button>
+        </div>
+      </section>
+      <section>
+        <h3 class="sub-title">Insights rápidos</h3>
+        <ul class="tips-list" data-list="tips"></ul>
+      </section>
+    </div>
+  </template>
+
+  <template data-screen="map">
+    <div class="screen-wrapper">
+      <button type="button" class="back-btn" data-screen-trigger="home">&#10094;</button>
+      <h2 class="screen-title">Mapa de pontos</h2>
+      <div class="map-area">
+        <div class="map-pin main-pin">Você</div>
+        <div class="map-pin secondary">Ponto A</div>
+        <div class="map-pin secondary">Ponto B</div>
+      </div>
+      <div class="map-footer">
+        <p><strong>Ponto selecionado:</strong> <span data-bind="selectedPointName"></span></p>
+        <p class="muted">Materiais: <span data-bind="selectedPointMaterials"></span></p>
+        <div class="btn-row">
+          <button type="button" class="primary-btn" data-action="open-point" data-point-source="selected">Ver detalhes</button>
+          <button type="button" class="secondary-btn" data-action="simulateDeposit" data-point-source="selected">Registrar coleta</button>
+        </div>
+      </div>
+      <h3 class="sub-title">Estações próximas</h3>
+      <ul class="point-list" data-list="points"></ul>
+    </div>
+  </template>
+
+  <template data-screen="point-details">
+    <div class="screen-wrapper">
+      <button type="button" class="back-btn" data-screen-trigger="map">&#10094;</button>
+      <div class="banner-ponto">
+        <h2 data-bind="selectedPointName"></h2>
+        <p data-bind="selectedPointAddress"></p>
+      </div>
+      <div class="ponto-body">
+        <h3>Materiais aceitos</h3>
+        <ul class="chips" data-list="selectedPointChips"></ul>
+        <h3>Informações</h3>
+        <p><strong>Horário:</strong> <span data-bind="selectedPointHours"></span></p>
+        <p><strong>Contato:</strong> <span data-bind="selectedPointContact"></span></p>
+        <p class="muted">Dados fictícios usados para demo.</p>
+      </div>
+      <div class="btn-row">
+        <button type="button" class="secondary-btn" data-action="focus-point" data-point-source="selected">Destacar no mapa</button>
+        <button type="button" class="primary-btn" data-action="simulateDeposit" data-point-source="selected">Registrar coleta</button>
+      </div>
+    </div>
+  </template>
+
+  <template data-screen="wallet">
+    <div class="screen-wrapper">
+      <button type="button" class="back-btn" data-screen-trigger="home">&#10094;</button>
+      <h2 class="screen-title">Carteira</h2>
+      <div class="card-saldo">
+        <div>
+          <span class="label">EcoCoins</span>
+          <h3 data-bind="coins"></h3>
+        </div>
+        <div class="card-extra">
+          <span>Ganhos do mês</span>
+          <strong data-bind="monthlyGain"></strong>
+        </div>
+      </div>
+      <button type="button" class="primary-btn full" data-action="simulateDeposit">Simular nova coleta</button>
+      <h3 class="sub-title">Histórico rápido</h3>
+      <ul class="list" data-list="historyShort"></ul>
+      <button type="button" class="text-link center-link" data-screen-trigger="history">Ver histórico completo</button>
+    </div>
+  </template>
+
+  <template data-screen="history">
+    <div class="screen-wrapper">
+      <button type="button" class="back-btn" data-screen-trigger="home">&#10094;</button>
+      <h2 class="screen-title">Histórico de coletas</h2>
+      <ul class="list history" data-list="historyFull"></ul>
+    </div>
+  </template>
+
+  <template data-screen="store">
+    <div class="screen-wrapper">
+      <button type="button" class="back-btn" data-screen-trigger="home">&#10094;</button>
+      <h2 class="screen-title">Loja de resgates</h2>
+      <p class="muted">Saldo disponível: <strong data-bind="coins"></strong> EcoCoins</p>
+      <div class="products" data-list="products"></div>
+    </div>
+  </template>
+
+  <script type="module" src="app.js" defer></script>
+</body>
+</html>
