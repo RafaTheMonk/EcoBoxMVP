@@ -1,10 +1,6 @@
-﻿const screenRoot = document.getElementById('screen-root');
-const toastEl = document.getElementById('toast');
 const templates = new Map();
-
-document.querySelectorAll('template[data-screen]').forEach((tpl) => {
-  templates.set(tpl.dataset.screen, tpl);
-});
+let screenRoot;
+let toastEl;
 
 const numberFormatter = new Intl.NumberFormat('pt-BR');
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
@@ -127,10 +123,25 @@ const renderers = {
 let currentScreen = 'welcome';
 let toastTimeout;
 
-document.addEventListener('click', handleDocumentClick);
-document.addEventListener('submit', handleFormSubmit);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
-loadScreen(currentScreen);
+function init() {
+  screenRoot = document.getElementById('screen-root');
+  toastEl = document.getElementById('toast');
+
+  document.querySelectorAll('template[data-screen]').forEach((tpl) => {
+    templates.set(tpl.dataset.screen, tpl);
+  });
+
+  document.addEventListener('click', handleDocumentClick);
+  document.addEventListener('submit', handleFormSubmit);
+
+  loadScreen(currentScreen);
+}
 
 function handleDocumentClick(event) {
   const trigger = event.target.closest('[data-screen-trigger]');
@@ -416,7 +427,8 @@ function redeemProduct(productId) {
   state.coins -= product.cost;
 
   addHistoryEntry({
-    id: edeem-,
+    id: 
+edeem-,
     date: formatDate(new Date()),
     description: Resgate ,
     value: -product.cost,
