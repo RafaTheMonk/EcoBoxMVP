@@ -99,7 +99,7 @@ const state = {
 const binders = {
   userName: () => state.userName,
   coins: () => formatCoins(state.coins),
-  monthlyGain: () => + Eco,
+  monthlyGain: () => `+${formatCoins(state.monthlyGain)} Eco`,
   monthlyGoal: () => formatCoins(state.monthlyGoal),
   selectedPointName: () => getSelectedPoint().name,
   selectedPointMaterials: () => getSelectedPoint().materials.join(', '),
@@ -203,7 +203,7 @@ function renderHome(root) {
   const tipsContainer = root.querySelector('[data-list="tips"]');
   renderList(tipsContainer, state.tips, (tip) => {
     const li = document.createElement('li');
-    li.innerHTML = <strong></strong><span></span>;
+    li.innerHTML = `<strong>${tip.title}</strong><span>${tip.description}</span>`;
     return li;
   });
 }
@@ -238,12 +238,12 @@ function renderStore(root) {
   renderList(list, state.products, (product) => {
     const card = document.createElement('div');
     card.className = 'product-card';
-    card.innerHTML = 
-      <small class="muted"></small>
-      <h4></h4>
-      <span class="product-note"></span>
-      <p> EcoCoins</p>
-    ;
+    card.innerHTML = `
+      <small class="muted">${product.category}</small>
+      <h4>${product.name}</h4>
+      <span class="product-note">${product.description}</span>
+      <p>${formatCoins(product.cost)} EcoCoins</p>
+    `;
 
     const button = document.createElement('button');
     button.type = 'button';
@@ -274,7 +274,7 @@ function renderPointsList(container) {
     address.textContent = point.address;
     const details = document.createElement('span');
     const distance = point.distance.toFixed(1).replace('.', ',');
-    details.textContent = ${distance} km • Materiais: ;
+    details.textContent = `${distance} km • Materiais: ${point.materials.join(', ')}`;
 
     const actions = document.createElement('div');
     actions.className = 'btn-row';
@@ -327,7 +327,7 @@ function renderHistoryList(container, entries) {
     const isPositive = entry.value >= 0;
     value.className = isPositive ? 'positivo' : 'negativo';
     const prefix = isPositive ? '+' : '-';
-    value.textContent = ${prefix} Eco;
+    value.textContent = `${prefix}${formatCoins(Math.abs(entry.value))} Eco`;
 
     li.append(wrapper, value);
     container.appendChild(li);
@@ -386,13 +386,13 @@ function simulateDeposit(pointId) {
   state.monthlyGain += bonus;
 
   addHistoryEntry({
-    id: dep-,
+    id: `dep-${Date.now()}`,
     date: formatDate(new Date()),
-    description: ${point.name} - coleta registrada,
+    description: `${point.name} - coleta registrada`,
     value: bonus,
   });
 
-  showToast(+ EcoCoins adicionados.);
+  showToast(`+${formatCoins(bonus)} EcoCoins adicionados.`);
   refreshCurrentScreen();
 }
 
@@ -402,7 +402,7 @@ function focusPoint(pointId) {
     return;
   }
 
-  showToast(${point.name} atualizado no mapa.);
+  showToast(`${point.name} atualizado no mapa.`);
   refreshCurrentScreen();
 }
 
@@ -427,13 +427,13 @@ function redeemProduct(productId) {
   state.coins -= product.cost;
 
   addHistoryEntry({
-    id: edeem-,
+    id: `redeem-${Date.now()}`,
     date: formatDate(new Date()),
-    description: Resgate ,
+    description: `Resgate ${product.name}`,
     value: -product.cost,
   });
 
-  showToast(Resgate de  confirmado.);
+  showToast(`Resgate de ${product.name} confirmado.`);
   refreshCurrentScreen();
 }
 
