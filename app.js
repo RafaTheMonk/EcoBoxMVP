@@ -1,4 +1,4 @@
-const templates = new Map();
+﻿const templates = new Map();
 let screenRoot;
 let toastEl;
 
@@ -427,8 +427,7 @@ function redeemProduct(productId) {
   state.coins -= product.cost;
 
   addHistoryEntry({
-    id: 
-edeem-,
+    id: edeem-,
     date: formatDate(new Date()),
     description: Resgate ,
     value: -product.cost,
